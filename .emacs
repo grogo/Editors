@@ -1,9 +1,23 @@
-;; Time-stamp: <2017-09-18 19:09:52 grogo .emacs>
+;; Time-stamp: <2019-01-15 08:34:57 grogo .emacs>
 (setq inhibit-startup-message t)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (wombat))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 113 :width normal)))))
+
 
 (set-cursor-color "red")
 ;;to manage the geometric size of initial window.
-(setq initial-frame-alist '((width . 86) (height . 52)))
+(setq initial-frame-alist '((width . 90) (height . 70)))
 
 (setq time-stamp-format "%:y-%02m-%02d %02H:%02M:%02S %u %f")
 (setq time-stamp-active t)
@@ -223,8 +237,8 @@
 ;(setenv "MYSQL_UNIX_PORT" "/Applications/MAMP/tmp/mysql/mysql.sock")
 
 
-(setq tex-command "/usr/texbin/pdflatex")
-(setq tex-start-commands "")
+;; (setq tex-command "/usr/texbin/pdflatex")
+;; (setq tex-start-commands "")
 
 ;;; php mode
 (add-to-list 'load-path "/home/grogo/emacs/php-mode")
@@ -238,16 +252,3 @@
 ;;; git clone git://github.com/tsgates/git-emacs.git
 (add-to-list 'load-path "/home/grogo/emacs/git-emacs")
 (require 'git-emacs)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (tango-dark))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 120 :width normal)))))
