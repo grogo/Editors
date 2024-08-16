@@ -1,0 +1,128 @@
+;; Time-stamp: <2024-06-21 06:10:09 grogo .emacs>
+(setq inhibit-startup-message t)
+
+(set-cursor-color "red")
+;;to manage the geometric size of initial window.
+(setq initial-frame-alist '((width . 86) (height . 52)))
+
+(setq time-stamp-format "%:y-%02m-%02d %02H:%02M:%02S %u %f")
+(setq time-stamp-active t)
+(add-hook 'write-file-hooks 'time-stamp)
+(global-font-lock-mode t) ;; always do syntax hiliting 
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(fset 'yes-or-no-p 'y-or-n-p)   ; enable one letter y/n answers to yes/no
+(setq x-select-enable-clipboard t) ; copy-paste should work
+(transient-mark-mode t)          ; make the current 'selection' visible
+(iswitchb-mode 1)          ; smart buffer switching
+
+;; A function to insert the time stamp at point.
+(defun stamp ()
+    "Insert at point the dummy time stamp string to activate the time stamp facility."
+      (interactive "*")
+        (insert "Time-stamp: <>")             ;insert the bare bones
+	  (time-stamp)                          ;call the function to fill it in
+	                                          ;where we put it.
+	  )
+
+; Insert the date, the time, and the date and time at point. Insert the
+; date 31 days hence at point (eventually...). Useful for keeping
+; records. These are based on Glickstein.
+
+(defvar insert-time-format "%T"
+    "*Format for \\[insert-time] (c.f. 'format-time-string' for how to format).")
+
+(defvar insert-date-format "%Y/%m/%d"
+    "*Format for \\[insert-date] (c.f. 'format-time-string' for how to format).")
+
+(defun insert-time ()
+    "Insert the current time according to the variable \"insert-time-format\"."
+      (interactive "*")
+        (insert (format-time-string insert-time-format
+				                         (current-time))))
+
+(defun insert-date ()
+    "Insert the current date according to the variable \"insert-date-format\"."
+      (interactive "*")
+        (insert (format-time-string insert-date-format
+				                         (current-time))))
+
+(defun insert-time-and-date ()
+    "Insert the current date according to the variable \"insert-date-format\", then a space, then the current time according to the variable \"insert-time-format\"."
+      (interactive "*")
+        (progn
+	      (insert-date)
+	          (insert " ")
+		      (insert-time)))
+
+
+(global-set-key [f5] 'insert-time-and-date)
+(global-set-key "\M-s" 'save-buffer)
+(global-set-key "\C-x/" 'point-to-register)
+(global-set-key "\C-xj" 'jump-to-register)
+(global-set-key "\M-g"  'goto-line)    ; M-g means 'goto-line
+;;(global-set-key "\C-z"  'undo)
+(global-set-key "\M-;"  'comment-or-uncomment-region)     ; toggle comments
+;; autosave Tramp files to local dir
+(setq tramp-auto-save-directory "~/.emacs-backup/")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; backups  (emacs will write backups and number them)
+(setq make-backup-files t ; do make backups
+            backup-by-copying t ; and copy them ...
+	          backup-directory-alist '(("." . "~/.emacs-backup")) ; ... here
+		        version-control t
+			      kept-new-versions 2
+			            kept-old-versions 3
+				          delete-old-versions t)
+
+
+;; Furthermore, you must activate font-lock-mode in Org buffers, because significant functionality depends on font-locking being active. You can do this with either one of the following two lines (XEmacs user must use the second option):
+
+(global-font-lock-mode 1)                     ; for all buffers(
+;(add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
+(custom-set-variables
+   ;; custom-set-variables was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+      ;; If there is more than one, they won't work right.
+ '(cua-normal-cursor-color "red")
+ '(grep-command "grep -niH -e ")
+ '(latex-run-command "/usr/texbin/pdflatex")
+ '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
+ '(paren-match-face (quote paren-face-match-light))
+ '(paren-sexp-mode t)
+ '(save-place t nil (saveplace))
+ '(show-paren-mode t)
+ '(tool-bar-mode nil)
+ '(desktop-save-mode t)
+ )
+
+
+
+;; I disabled this since I want to avoid hitting Cmd-q accidentally.
+;(global-set-key [(hyper q)] 'save-buffers-kill-emacs)
+
+;(require 'redo)
+(global-set-key [(meta z)] 'undo)
+(global-set-key [(hyper shift z)] 'redo)
+(global-set-key "\C-xx" 'copy-to-register)
+(global-set-key "\C-xg" 'insert-register)
+
+;;; php mode
+;(add-to-list 'load-path "/Users/grogo/elisp/php-mode")
+;(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+;(autoload 'php-mode "php-mode" "PHP mode." t)
+
+;;; grep
+(setq grep-command "grep -nHi -e ")
+
+;;; default file open at startup
+;(find-file "~/Dropbox/org/work.txt")
+; can I really edit this file?
+
+;;; Git-emacs
+;;; https://github.com/tsgates/git-emacs.git
+;(add-to-list 'load-path "/home/grogo/elisp/git-emacs")
+;(require 'git-emacs)
+
+(setq global-auto-revert-mode t)
